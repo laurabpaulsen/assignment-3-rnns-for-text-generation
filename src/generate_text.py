@@ -18,7 +18,7 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--prompt", type = str, required = True)
     parser.add_argument("--n_words", type = int, default = 5)
-    parser.add_argument("--model", type = str, default = "model_seq_291.h5")
+    parser.add_argument("--model", type = str, default = "model_seq_297.h5")
     
     return parser.parse_args()
 
@@ -99,10 +99,13 @@ def generate_text(prompt:str, n_words:int, model, tokenizer, seq_len:int):
 def main():
     # parsing args from command-line
     args = parse_args()
+
+    # extract sequence length from filename of model
+    seq_len = int(args.model.split(".h5")[0].split('_')[-1])
     
     path = Path(__file__)
     model_path = path.parents[1] / "mdl" / args.model
-    tokenizer_path = path.parents[1] /  "mdl" / "tokenizer.pickle"
+    tokenizer_path = path.parents[1] /  "mdl" / f"tokenizer_seq_{seq_len}.pickle"
 
     # loading the trained model
     model = load_model(model_path)
@@ -112,9 +115,6 @@ def main():
     # loading tokenizer
     with open(tokenizer_path, 'rb') as f:
         tokenizer = pickle.load(f)
-
-    # extract sequence length from filename of model
-    seq_len = int(args.model.split(".h5")[0].split('_')[-1])
 
     # generate text from the user-specified prompt
     generated_txt = generate_text(args.prompt, args.n_words, model, tokenizer, seq_len = seq_len)

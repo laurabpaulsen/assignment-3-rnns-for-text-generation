@@ -1,6 +1,6 @@
 """
 Pipeline for training a recurrent neural network on comments from New York Times articles. The following steps are taken
-    - loads data and chooses 100,000 random comments to train on
+    - loads data and chooses n random comments to train on
     - cleaning the data 
     - tokenization of the data
     - creating sequences and padding them
@@ -50,7 +50,7 @@ def custom_logger(name):
     logger.setLevel(logging.INFO)
 
     # format log message
-    formatter = logging.Formatter("%(asctime)s: %(name)s - %(message)s")
+    formatter = logging.Formatter("%(asctime)s - %(message)s")
     handler.setFormatter(formatter)
 
     logger.addHandler(handler)
@@ -212,7 +212,7 @@ def train_model(sequences:list, n_words:int):
 
     history = model.fit(predictors, 
                     label, 
-                    epochs=50,
+                    epochs=20,
                     batch_size=128, 
                     verbose=1)
 
@@ -221,7 +221,8 @@ def train_model(sequences:list, n_words:int):
 
 def plot_history(history, save_path:str = None):
     """
-
+    Plots the loss curve 
+    
     Parameters
     ---------
     history : tf.keras.callbacks.History
@@ -281,7 +282,7 @@ def main():
     sequences, n_words, seq_len = get_sequences(comments, tokenizer)
 
     # save tokenizer (needed for text generation)
-    tokenizer_path = path.parents[1] /  "mdl" / "tokenizer_seq_{seq_len}.pickle"
+    tokenizer_path = path.parents[1] /  "mdl" / f"tokenizer_seq_{seq_len}.pickle"
     with open(tokenizer_path, 'wb') as handle:
         pickle.dump(tokenizer, handle, protocol=pickle.HIGHEST_PROTOCOL)
     
