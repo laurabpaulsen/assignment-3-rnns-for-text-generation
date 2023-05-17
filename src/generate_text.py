@@ -3,9 +3,7 @@ Generates text from the model trained using train_model.py
 
 Authour: Laura Bock Paulsen (202005791@post.au.dk)
 """
-
 import argparse
-import os
 import pickle
 from pathlib import Path
 import numpy as np
@@ -21,7 +19,6 @@ def parse_args():
     parser.add_argument("--model", type = str, default = "model_seq_297.h5")
     
     return parser.parse_args()
-
 
 def search_dict(dict:dict, value):
     """
@@ -62,7 +59,7 @@ def generate_text(prompt:str, n_words:int, model, tokenizer, seq_len:int):
         The number of words to generate following the prompt
     
     model : 
-        XXXXXXXXXXXX
+        The trained model
     
     tokenizer :
         The tokenizer used on the training data
@@ -74,18 +71,20 @@ def generate_text(prompt:str, n_words:int, model, tokenizer, seq_len:int):
     -------
 
     """
-
     prompt = prompt.lower()
     
     output = ""
     word_dict = tokenizer.word_index
-    for _ in range(n_words):
+    for _ in range(n_words): # loop over the number of words to generate
+        # tokenizing the prompt
         token_list = tokenizer.texts_to_sequences([prompt + output])[0]
         
+        # padding the tokenized prompt
         token_list = pad_sequences([token_list], 
                                     maxlen=seq_len - 1, 
                                     padding='pre')
-
+        
+        # predicting the next word
         predicted = np.argmax(model.predict(token_list),
                                             axis=1)
         
