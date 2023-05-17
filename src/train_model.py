@@ -34,6 +34,8 @@ from tensorflow.keras.layers import Embedding, LSTM, Dense, Dropout
 import logging
 import argparse as ap
 
+plt.rcParams['font.family'] = "serif"
+
 def parse_args():
     parser = ap.ArgumentParser()
     parser.add_argument("-n", "--n_comments", type = int, default = None)
