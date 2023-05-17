@@ -40,7 +40,7 @@ def parse_args():
 
     return parser.parse_args()
 
-def custom_logger(name):
+def custom_logger():
     logger = logging.getLogger(__name__)
     
     # console handler
