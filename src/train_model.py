@@ -12,7 +12,7 @@ Authour: Laura Bock Paulsen (202005791@post.au.dk)
 """
 
 # data processing tools
-import string, os 
+import string
 from pathlib import Path
 import pandas as pd
 import numpy as np
@@ -22,6 +22,7 @@ import random
 import matplotlib.pyplot as plt
 import pickle
 
+# tensorflow imports
 import tensorflow as tf
 tf.random.set_seed(42)
 from tensorflow.keras.utils import to_categorical
@@ -105,16 +106,16 @@ def load_data(path:str, query:str):
         raise ValueError("Query must be either 'Comments' or 'Articles'")
 
     # list files in directory
-    files = os.listdir(path)
+    files = path.glob("*.csv")
 
     # loop through files and load data
     texts = []
     for f in files:
         if query in f:
             if query == "Comments":
-                df = pd.read_csv(os.path.join(path, f), usecols=["commentBody"])
+                df = pd.read_csv(path / f, usecols=["commentBody"])
             else:
-                df = pd.read_csv(os.path.join(path, f), usecols=["headlines"])
+                df = pd.read_csv(path / f, usecols=["headlines"])
             
             # append to list
             texts.extend(df.values.flatten().tolist())
