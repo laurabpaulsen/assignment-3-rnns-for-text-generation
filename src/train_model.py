@@ -18,15 +18,13 @@ import pandas as pd
 import numpy as np
 np.random.seed(42)
 
-import re
 import random
-
 import matplotlib.pyplot as plt
 import pickle
 
 import tensorflow as tf
 tf.random.set_seed(42)
-import tensorflow.keras.utils as ku 
+from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
@@ -60,7 +58,7 @@ def custom_logger(name):
 
 def clean_txt(txt:str): 
     """
-    Cleans the text by ....
+    Cleans the text by removing newlines, punctuation and non-ascii characters.
 
     Parameters
     ----------
@@ -87,6 +85,7 @@ def clean_txt(txt:str):
 
 def load_data(path:str, query:str): 
     """
+    Loads the data from the given path and returns a list of strings containing the data given the query.
 
     Parameters
     ----------
@@ -152,6 +151,7 @@ def get_sequences(texts:list, tokenizer:Tokenizer):
     # convert data to sequences
     sequences = tokenizer.texts_to_sequences(texts)
 
+    # find max sequence length
     seq_len = max([len(x) for x in sequences])
 
     # pad sequences
@@ -164,7 +164,7 @@ def create_model(sequence_len, total_words):
     input_len = sequence_len - 1
     model = Sequential()
     
-    # Add Input Embedding Layer
+    # add input embedding layer
     model.add(Embedding(total_words, 
                         10, 
                         input_length=input_len))
@@ -185,7 +185,7 @@ def create_model(sequence_len, total_words):
 
 def train_model(sequences:list, n_words:int):
     """
-    Trains a RNN model on the given texts.
+    Trains a RNN model on the given sequences.
 
     Parameters
     ----------
@@ -204,11 +204,13 @@ def train_model(sequences:list, n_words:int):
         The history of the training.
     """
 
+    # initialise model
     model = create_model(sequences.shape[1], n_words)
 
+    # preparing predictors and label
     predictors, label = sequences[:,:-1], sequences[:,-1]
 
-    label = ku.to_categorical(label, num_classes=n_words)
+    label = to_categorical(label, num_classes=n_words)
 
     history = model.fit(predictors, 
                     label, 
