@@ -24,6 +24,9 @@ python src/train_model.py --n_comments 50000
 python src/generate_text.py --prompt "Donald Trump wins"
 ```
 
+The pipeline was developed and tested on [uCloud](https://cloud.sdu.dk/app/dashboard)(Ubuntu v22.10m, Coder python v1.77.3, python v3.10.7).
+
+
 It is possible to specify the model you want to use for text generation, if you have several in the repository.
 
 ## Repository structure
