@@ -21,7 +21,7 @@ python src/train_model.py --n_comments 50000
 ```
 5. Generate text
 ```
-python src/generate_text.py --prompt "Donald Trump"
+python src/generate_text.py --prompt "Donald Trump wins"
 ```
 
 It is possible to specify the model you want to use for text generation, if you have several in the repository.
@@ -42,3 +42,14 @@ It is possible to specify the model you want to use for text generation, if you 
 ```
 
 ## Results
+To evaluate the text-generating capabilities of the model trained on the comments, several prompts were provided to the model. The generated outputs from the model are presented in the table below:
+
+| Prompt                      | Generated Text          |
+|-----------------------------|-------------------------|
+| Donald Trump wins           | again is are said it    |
+| Barack Obama wins           | right again is are true |
+| Flooding in Alabama         | president it up it else |
+| Great article, I hope       | it it it it             |
+| The future of renewable energy | said on it it it     |
+
+Based on these test examples, it is evident that the model struggles to produce coherent sentences that are grammatically and semantically meaningful.
