@@ -52,4 +52,4 @@ To evaluate the text-generating capabilities of the model trained on the comment
 | Great article, I hope       | it it it it             |
 | The future of renewable energy | said on it it it     |
 
-Based on these test examples, it is evident that the model struggles to produce coherent sentences that are grammatically and semantically meaningful.
+Based on these test examples, it is evident that the model struggles to produce coherent sentences that are grammatically and semantically meaningful. Increasing the number of comments the model is trained on might increase its usability, or training for more epochs. 
