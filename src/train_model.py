@@ -113,7 +113,7 @@ def load_data(path:str, query:str):
     # loop through files and load data
     texts = []
     for f in files:
-        if query in f:
+        if query in f.name:
             if query == "Comments":
                 df = pd.read_csv(path / f, usecols=["commentBody"])
             else:
@@ -123,7 +123,6 @@ def load_data(path:str, query:str):
             texts.extend(df.values.flatten().tolist())
 
     return texts
-
 
 def get_sequences(texts:list, tokenizer:Tokenizer):
     """
@@ -265,7 +264,7 @@ def main():
     args = parse_args()
 
     # initialise logger
-    logger = custom_logger("train-model")
+    logger = custom_logger()
     
     # load data
     logger.info("LOADING DATA")
@@ -274,8 +273,6 @@ def main():
     if args.n_comments: # if it is not None, a subset of the comments are chosen
         comments = random.choices(comments, k = args.n_comments)
     
-    print(len(comments))
-
     # clean data
     logger.info("CLEANING DATA")
     comments = [clean_txt(txt) for txt in comments if txt is not np.nan]
